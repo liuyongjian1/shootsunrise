@@ -1,0 +1,6 @@
+2025-07-31 09:14:07.719 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2025-07-31 09:14:07.833 [main] INFO  com.shootsunrise.admin.AdminApplication - Starting AdminApplication using Java 17.0.16 with PID 13916 (D:\devsoft\code\ShootSunrise\shoot-sunrise-backend\shoot-sunrise-admin\target\classes started by Administrator in D:\devsoft\code\ShootSunrise\shoot-sunrise-backend)
+2025-07-31 09:14:07.834 [main] INFO  com.shootsunrise.admin.AdminApplication - The following 1 profile is active: "dev"
+2025-07-31 09:14:54.623 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2025-07-31 09:14:54.706 [main] INFO  com.shootsunrise.admin.AdminApplication - Starting AdminApplication using Java 17.0.16 with PID 11784 (D:\devsoft\code\ShootSunrise\shoot-sunrise-backend\shoot-sunrise-admin\target\classes started by Administrator in D:\devsoft\code\ShootSunrise\shoot-sunrise-backend)
+2025-07-31 09:14:54.708 [main] INFO  com.shootsunrise.admin.AdminApplication - The following 1 profile is active: "dev"

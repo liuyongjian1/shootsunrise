@@ -1,0 +1,117 @@
+# 个人摄影师微信小程序 - 小程序端环境配置
+spring:
+  application:
+    name: shoot-sunrise-miniapp
+  
+  # 数据源配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/shoot_sunrise?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 20
+      auto-commit: true
+      idle-timeout: 30000
+      pool-name: MiniappHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+
+  # Redis配置
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: 
+      database: 1
+      timeout: 6000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-wait: -1ms
+          max-idle: 8
+          min-idle: 0
+
+  # Jackson配置
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: NON_NULL
+
+# 日志配置
+logging:
+  level:
+    root: INFO
+    com.shootsunrise.miniapp: INFO
+    com.shootsunrise.core: INFO
+    org.springframework: WARN
+    org.apache.ibatis: WARN
+    com.baomidou.mybatisplus: WARN
+
+# MyBatis Plus配置
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    call-setters-on-nulls: true
+    jdbc-type-for-null: 'null'
+  global-config:
+    db-config:
+      id-type: AUTO
+      logic-delete-field: isDelete
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  mapper-locations: classpath*:mapper/*.xml
+
+# Knife4j配置
+knife4j:
+  enable: true
+  openapi:
+    title: 个人摄影师微信小程序-小程序端API
+    description: 为摄影师和客户提供作品展示、预约服务的微信小程序后端API
+    version: 1.0.0
+    concat: lyj
+    url: https://github.com/liuyongjian1
+    email: liuyongjian1@example.com
+    license: Apache 2.0
+    license-url: https://www.apache.org/licenses/LICENSE-2.0
+  setting:
+    language: zh_cn
+    enable-version: true
+    enable-swagger-models: true
+    swagger-model-name: 实体类列表
+
+# 微信小程序配置
+wechat:
+  miniapp:
+    app-id: your_miniapp_appid
+    app-secret: your_miniapp_secret
+    token: your_token
+    aes-key: your_aes_key
+
+# 文件上传配置
+file:
+  upload:
+    path: /data/upload/miniapp/
+    max-size: 10MB
+    allowed-types: jpg,jpeg,png,gif,mp4,mov
+
+# 业务配置
+business:
+  # 作品配置
+  portfolio:
+    max-images: 20
+    max-videos: 5
+    image-max-size: 5MB
+    video-max-size: 50MB
+  
+  # 预约配置
+  booking:
+    advance-days: 30
+    cancel-hours: 24
+  
+  # 支付配置
+  payment:
+    timeout-minutes: 30

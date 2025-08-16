@@ -1,0 +1,29 @@
+2025-07-30 11:06:21.773 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2025-07-30 11:06:21.842 [main] INFO  com.shootsunrise.admin.AdminApplication - Starting AdminApplication using Java 17.0.16 with PID 18804 (D:\devsoft\code\ShootSunrise\shoot-sunrise-backend\shoot-sunrise-admin\target\classes started by Administrator in D:\devsoft\code\ShootSunrise\shoot-sunrise-backend)
+2025-07-30 11:06:21.843 [main] INFO  com.shootsunrise.admin.AdminApplication - The following 1 profile is active: "dev"
+2025-07-30 11:06:24.117 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8082 (http)
+2025-07-30 11:06:24.130 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8082"]
+2025-07-30 11:06:24.136 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-07-30 11:06:24.137 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.31]
+2025-07-30 11:06:24.222 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/admin-api] - Initializing Spring embedded WebApplicationContext
+2025-07-30 11:06:24.222 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2317 ms
+2025-07-30 11:06:24.347 [main] INFO  org.apache.catalina.core.StandardService - Stopping service [Tomcat]
+2025-07-30 12:19:39.701 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2025-07-30 12:19:39.768 [main] INFO  com.shootsunrise.admin.AdminApplication - Starting AdminApplication using Java 17.0.16 with PID 21372 (D:\devsoft\code\ShootSunrise\shoot-sunrise-backend\shoot-sunrise-admin\target\classes started by Administrator in D:\devsoft\code\ShootSunrise\shoot-sunrise-backend)
+2025-07-30 12:19:39.770 [main] INFO  com.shootsunrise.admin.AdminApplication - The following 1 profile is active: "dev"
+2025-07-30 12:19:41.937 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8082 (http)
+2025-07-30 12:19:41.956 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8082"]
+2025-07-30 12:19:41.961 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2025-07-30 12:19:41.961 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.31]
+2025-07-30 12:19:42.045 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/admin-api] - Initializing Spring embedded WebApplicationContext
+2025-07-30 12:19:42.046 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2205 ms
+2025-07-30 12:19:42.131 [main] INFO  org.apache.catalina.core.StandardService - Stopping service [Tomcat]
+2025-07-30 14:17:43.981 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2025-07-30 14:17:44.064 [main] INFO  com.shootsunrise.admin.AdminApplication - Starting AdminApplication using Java 17.0.16 with PID 20360 (D:\devsoft\code\ShootSunrise\shoot-sunrise-backend\shoot-sunrise-admin\target\classes started by Administrator in D:\devsoft\code\ShootSunrise\shoot-sunrise-backend)
+2025-07-30 14:17:44.065 [main] INFO  com.shootsunrise.admin.AdminApplication - The following 1 profile is active: "dev"
+2025-07-30 16:13:56.991 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2025-07-30 16:13:57.082 [main] INFO  com.shootsunrise.admin.AdminApplication - Starting AdminApplication using Java 17.0.16 with PID 5584 (D:\devsoft\code\ShootSunrise\shoot-sunrise-backend\shoot-sunrise-admin\target\classes started by Administrator in D:\devsoft\code\ShootSunrise\shoot-sunrise-backend)
+2025-07-30 16:13:57.084 [main] INFO  com.shootsunrise.admin.AdminApplication - The following 1 profile is active: "dev"
+2025-07-30 20:18:20.615 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2025-07-30 20:18:20.699 [main] INFO  com.shootsunrise.admin.AdminApplication - Starting AdminApplication using Java 17.0.16 with PID 27100 (D:\devsoft\code\ShootSunrise\shoot-sunrise-backend\shoot-sunrise-admin\target\classes started by Administrator in D:\devsoft\code\ShootSunrise\shoot-sunrise-backend)
+2025-07-30 20:18:20.700 [main] INFO  com.shootsunrise.admin.AdminApplication - The following 1 profile is active: "dev"

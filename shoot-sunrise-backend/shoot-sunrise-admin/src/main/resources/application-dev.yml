@@ -1,0 +1,36 @@
+# 个人摄影师微信小程序 - 管理后台开发环境配置
+spring:
+  # 数据源配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/shoot_sunrise?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
+    hikari:
+      minimum-idle: 2
+      maximum-pool-size: 10
+
+  # Redis配置
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: 
+      database: 2
+
+# MyBatis Plus配置
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# 日志配置
+logging:
+  level:
+    root: INFO
+    com.shootsunrise.admin: INFO
+    com.shootsunrise.core: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+
+# 开发环境特殊配置
+debug: false

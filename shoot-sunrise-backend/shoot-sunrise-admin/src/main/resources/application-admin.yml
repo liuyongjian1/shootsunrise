@@ -1,0 +1,111 @@
+# 个人摄影师微信小程序 - 管理后台环境配置
+spring:
+  application:
+    name: shoot-sunrise-admin
+  
+  # 数据源配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/shoot_sunrise?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 20
+      auto-commit: true
+      idle-timeout: 30000
+      pool-name: AdminHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+
+  # Redis配置
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: 
+      database: 2
+      timeout: 6000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-wait: -1ms
+          max-idle: 8
+          min-idle: 0
+
+  # Jackson配置
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: NON_NULL
+
+# MyBatis Plus配置
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    call-setters-on-nulls: true
+    jdbc-type-for-null: 'null'
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: AUTO
+      logic-delete-field: isDelete
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  mapper-locations: classpath*:mapper/*.xml
+
+# Knife4j配置
+knife4j:
+  enable: true
+  openapi:
+    title: 个人摄影师微信小程序-管理后台API
+    description: 个人摄影师微信小程序管理后台系统API，提供用户管理、内容审核、数据统计等功能
+    version: 1.0.0
+    concat: lyj
+    url: https://github.com/liuyongjian1
+    email: liuyongjian1@example.com
+    license: Apache 2.0
+    license-url: https://www.apache.org/licenses/LICENSE-2.0
+  setting:
+    language: zh_cn
+    enable-version: true
+    enable-swagger-models: true
+    swagger-model-name: 实体类列表
+
+# 管理后台安全配置
+admin:
+  security:
+    jwt:
+      secret: shoot-sunrise-admin-jwt-secret-key-2025
+      expiration: 7200000  # 2小时
+      refresh-expiration: 604800000  # 7天
+    password:
+      salt: shoot-sunrise-admin-salt
+      iterations: 1000
+
+# 文件上传配置
+file:
+  upload:
+    path: /data/upload/admin/
+    max-size: 50MB
+    allowed-types: jpg,jpeg,png,gif,mp4,mov,pdf,doc,docx,xls,xlsx
+
+# 业务配置
+business:
+  # 审核配置
+  audit:
+    auto-approve: false
+    review-timeout-days: 7
+  
+  # 统计配置
+  statistics:
+    cache-minutes: 30
+    report-schedule: "0 0 1 * * ?"  # 每天凌晨1点生成报表
+  
+  # 系统配置
+  system:
+    maintenance-mode: false
+    max-login-attempts: 5
+    login-lock-minutes: 30

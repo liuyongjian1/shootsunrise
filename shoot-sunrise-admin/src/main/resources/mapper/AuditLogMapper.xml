@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shootsunrise.admin.mapper.AuditLogMapper">
+
+    <!-- 审核日志结果映射 -->
+    <resultMap id="BaseResultMap" type="com.shootsunrise.admin.entity.AuditLog">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="audit_type" property="auditType" jdbcType="VARCHAR"/>
+        <result column="target_id" property="targetId" jdbcType="BIGINT"/>
+        <result column="target_type" property="targetType" jdbcType="VARCHAR"/>
+        <result column="audit_status" property="auditStatus" jdbcType="VARCHAR"/>
+        <result column="auditor_id" property="auditorId" jdbcType="BIGINT"/>
+        <result column="auditor_name" property="auditorName" jdbcType="VARCHAR"/>
+        <result column="audit_reason" property="auditReason" jdbcType="VARCHAR"/>
+        <result column="audit_comment" property="auditComment" jdbcType="VARCHAR"/>
+        <result column="audit_time" property="auditTime" jdbcType="TIMESTAMP"/>
+        <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
+        <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!-- 基础字段 -->
+    <sql id="Base_Column_List">
+        id, audit_type, target_id, target_type, audit_status, auditor_id, auditor_name,
+        audit_reason, audit_comment, audit_time, created_at, updated_at
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Where_Clause">
+        <where>
+            <if test="auditType != null and auditType != ''">
+                AND audit_type = #{auditType}
+            </if>
+            <if test="targetType != null and targetType != ''">
+                AND target_type = #{targetType}
+            </if>
+            <if test="auditStatus != null and auditStatus != ''">
+                AND audit_status = #{auditStatus}
+            </if>
+            <if test="auditorId != null">
+                AND auditor_id = #{auditorId}
+            </if>
+            <if test="startDate != null">
+                AND audit_time >= #{startDate}
+            </if>
+            <if test="endDate != null">
+                AND audit_time &lt;= #{endDate}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                AND (auditor_name LIKE CONCAT('%', #{keyword}, '%') 
+                     OR audit_reason LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+        </where>
+    </sql>
+
+    <!-- 根据ID查询 -->
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT 
+        <include refid="Base_Column_List"/>
+        FROM audit_logs
+        WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <!-- 分页查询审核日志 -->
+    <select id="selectByPage" parameterType="com.shootsunrise.admin.model.dto.AuditQueryDTO" resultMap="BaseResultMap">
+        SELECT 
+        <include refid="Base_Column_List"/>
+        FROM audit_logs
+        <include refid="Where_Clause"/>
+        ORDER BY audit_time DESC
+    </select>
+
+    <!-- 统计审核日志数量 -->
+    <select id="countByCondition" parameterType="com.shootsunrise.admin.model.dto.AuditQueryDTO" resultType="java.lang.Long">
+        SELECT COUNT(1)
+        FROM audit_logs
+        <include refid="Where_Clause"/>
+    </select>
+
+    <!-- 根据目标ID和类型查询 -->
+    <select id="selectByTargetIdAndType" resultMap="BaseResultMap">
+        SELECT 
+        <include refid="Base_Column_List"/>
+        FROM audit_logs
+        WHERE target_id = #{targetId,jdbcType=BIGINT} 
+        AND target_type = #{targetType,jdbcType=VARCHAR}
+        ORDER BY audit_time DESC
+    </select>
+
+    <!-- 插入审核日志 -->
+    <insert id="insert" parameterType="com.shootsunrise.admin.entity.AuditLog" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO audit_logs (
+            audit_type, target_id, target_type, audit_status, auditor_id, auditor_name,
+            audit_reason, audit_comment, audit_time, created_at, updated_at
+        ) VALUES (
+            #{auditType,jdbcType=VARCHAR}, #{targetId,jdbcType=BIGINT}, #{targetType,jdbcType=VARCHAR},
+            #{auditStatus,jdbcType=VARCHAR}, #{auditorId,jdbcType=BIGINT}, #{auditorName,jdbcType=VARCHAR},
+            #{auditReason,jdbcType=VARCHAR}, #{auditComment,jdbcType=VARCHAR}, #{auditTime,jdbcType=TIMESTAMP},
+            NOW(), NOW()
+        )
+    </insert>
+
+    <!-- 批量插入审核日志 -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO audit_logs (
+            audit_type, target_id, target_type, audit_status, auditor_id, auditor_name,
+            audit_reason, audit_comment, audit_time, created_at, updated_at
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+                #{item.auditType,jdbcType=VARCHAR}, #{item.targetId,jdbcType=BIGINT}, #{item.targetType,jdbcType=VARCHAR},
+                #{item.auditStatus,jdbcType=VARCHAR}, #{item.auditorId,jdbcType=BIGINT}, #{item.auditorName,jdbcType=VARCHAR},
+                #{item.auditReason,jdbcType=VARCHAR}, #{item.auditComment,jdbcType=VARCHAR}, #{item.auditTime,jdbcType=TIMESTAMP},
+                NOW(), NOW()
+            )
+        </foreach>
+    </insert>
+
+    <!-- 更新审核日志 -->
+    <update id="updateByPrimaryKey" parameterType="com.shootsunrise.admin.entity.AuditLog">
+        UPDATE audit_logs
+        SET audit_status = #{auditStatus,jdbcType=VARCHAR},
+            audit_reason = #{auditReason,jdbcType=VARCHAR},
+            audit_comment = #{auditComment,jdbcType=VARCHAR},
+            updated_at = NOW()
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!-- 删除审核日志 -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE FROM audit_logs
+        WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <!-- 根据时间范围删除日志 -->
+    <delete id="deleteByDateRange">
+        DELETE FROM audit_logs
+        WHERE audit_time &lt; #{endDate,jdbcType=TIMESTAMP}
+    </delete>
+
+    <!-- 统计审核数据 -->
+    <select id="selectAuditStatistics" resultType="java.util.Map">
+        SELECT 
+            audit_status,
+            COUNT(1) as count,
+            DATE(audit_time) as audit_date
+        FROM audit_logs
+        WHERE audit_time >= #{startDate,jdbcType=TIMESTAMP}
+        AND audit_time &lt;= #{endDate,jdbcType=TIMESTAMP}
+        <if test="auditType != null and auditType != ''">
+            AND audit_type = #{auditType}
+        </if>
+        GROUP BY audit_status, DATE(audit_time)
+        ORDER BY audit_date DESC
+    </select>
+
+</mapper>

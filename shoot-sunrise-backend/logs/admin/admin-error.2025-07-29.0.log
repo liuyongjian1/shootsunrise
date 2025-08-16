@@ -1,0 +1,15 @@
+2025-07-29 20:59:38.202 [main] ERROR o.s.b.diagnostics.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+A component required a bean of type 'com.shootsunrise.core.mapper.AdminUsersMapper' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.shootsunrise.core.mapper.AdminUsersMapper' in your configuration.
+

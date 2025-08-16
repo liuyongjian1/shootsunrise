@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shootsunrise.admin.mapper.SystemConfigMapper">
+
+    <!-- 系统配置结果映射 -->
+    <resultMap id="BaseResultMap" type="com.shootsunrise.admin.entity.SystemConfig">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="config_key" property="configKey" jdbcType="VARCHAR"/>
+        <result column="config_value" property="configValue" jdbcType="TEXT"/>
+        <result column="config_name" property="configName" jdbcType="VARCHAR"/>
+        <result column="config_desc" property="configDesc" jdbcType="VARCHAR"/>
+        <result column="config_type" property="configType" jdbcType="VARCHAR"/>
+        <result column="config_group" property="configGroup" jdbcType="VARCHAR"/>
+        <result column="is_system" property="isSystem" jdbcType="TINYINT"/>
+        <result column="sort_order" property="sortOrder" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="created_by" property="createdBy" jdbcType="BIGINT"/>
+        <result column="updated_by" property="updatedBy" jdbcType="BIGINT"/>
+        <result column="created_at" property="createdAt" jdbcType="TIMESTAMP"/>
+        <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!-- 基础字段 -->
+    <sql id="Base_Column_List">
+        id, config_key, config_value, config_name, config_desc, config_type, config_group,
+        is_system, sort_order, status, created_by, updated_by, created_at, updated_at
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Where_Clause">
+        <where>
+            <if test="configKey != null and configKey != ''">
+                AND config_key = #{configKey}
+            </if>
+            <if test="configGroup != null and configGroup != ''">
+                AND config_group = #{configGroup}
+            </if>
+            <if test="configType != null and configType != ''">
+                AND config_type = #{configType}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+            <if test="isSystem != null">
+                AND is_system = #{isSystem}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                AND (config_name LIKE CONCAT('%', #{keyword}, '%') 
+                     OR config_desc LIKE CONCAT('%', #{keyword}, '%')
+                     OR config_key LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+        </where>
+    </sql>
+
+    <!-- 根据ID查询 -->
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT 
+        <include refid="Base_Column_List"/>
+        FROM system_configs
+        WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据配置键查询 -->
+    <select id="selectByConfigKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT 
+        <include refid="Base_Column_List"/>
+        FROM system_configs
+        WHERE config_key = #{configKey,jdbcType=VARCHAR}
+        AND status = 1
+    </select>
+
+    <!-- 根据配置组查询 -->
+    <select id="selectByConfigGroup" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT 
+        <include refid="Base_Column_List"/>
+        FROM system_configs
+        WHERE config_group = #{configGroup,jdbcType=VARCHAR}
+        AND status = 1
+        ORDER BY sort_order ASC, id ASC
+    </select>
+
+    <!-- 分页查询系统配置 -->
+    <select id="selectByPage" parameterType="com.shootsunrise.admin.model.dto.SystemConfigDTO" resultMap="BaseResultMap">
+        SELECT 
+        <include refid="Base_Column_List"/>
+        FROM system_configs
+        <include refid="Where_Clause"/>
+        ORDER BY config_group ASC, sort_order ASC, id ASC
+    </select>
+
+    <!-- 统计配置数量 -->
+    <select id="countByCondition" parameterType="com.shootsunrise.admin.model.dto.SystemConfigDTO" resultType="java.lang.Long">
+        SELECT COUNT(1)
+        FROM system_configs
+        <include refid="Where_Clause"/>
+    </select>
+
+    <!-- 获取所有配置组 -->
+    <select id="selectAllConfigGroups" resultType="java.lang.String">
+        SELECT DISTINCT config_group
+        FROM system_configs
+        WHERE status = 1
+        ORDER BY config_group ASC
+    </select>
+
+    <!-- 检查配置键是否存在 -->
+    <select id="existsByConfigKey" parameterType="java.lang.String" resultType="java.lang.Boolean">
+        SELECT COUNT(1) > 0
+        FROM system_configs
+        WHERE config_key = #{configKey,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 插入系统配置 -->
+    <insert id="insert" parameterType="com.shootsunrise.admin.entity.SystemConfig" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO system_configs (
+            config_key, config_value, config_name, config_desc, config_type, config_group,
+            is_system, sort_order, status, created_by, updated_by, created_at, updated_at
+        ) VALUES (
+            #{configKey,jdbcType=VARCHAR}, #{configValue,jdbcType=VARCHAR}, #{configName,jdbcType=VARCHAR},
+            #{configDesc,jdbcType=VARCHAR}, #{configType,jdbcType=VARCHAR}, #{configGroup,jdbcType=VARCHAR},
+            #{isSystem,jdbcType=TINYINT}, #{sortOrder,jdbcType=INTEGER}, #{status,jdbcType=TINYINT},
+            #{createdBy,jdbcType=BIGINT}, #{updatedBy,jdbcType=BIGINT}, NOW(), NOW()
+        )
+    </insert>
+
+    <!-- 批量插入系统配置 -->
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO system_configs (
+            config_key, config_value, config_name, config_desc, config_type, config_group,
+            is_system, sort_order, status, created_by, updated_by, created_at, updated_at
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+                #{item.configKey,jdbcType=VARCHAR}, #{item.configValue,jdbcType=VARCHAR}, #{item.configName,jdbcType=VARCHAR},
+                #{item.configDesc,jdbcType=VARCHAR}, #{item.configType,jdbcType=VARCHAR}, #{item.configGroup,jdbcType=VARCHAR},
+                #{item.isSystem,jdbcType=TINYINT}, #{item.sortOrder,jdbcType=INTEGER}, #{item.status,jdbcType=TINYINT},
+                #{item.createdBy,jdbcType=BIGINT}, #{item.updatedBy,jdbcType=BIGINT}, NOW(), NOW()
+            )
+        </foreach>
+    </insert>
+
+    <!-- 更新系统配置 -->
+    <update id="updateByPrimaryKey" parameterType="com.shootsunrise.admin.entity.SystemConfig">
+        UPDATE system_configs
+        SET config_value = #{configValue,jdbcType=VARCHAR},
+            config_name = #{configName,jdbcType=VARCHAR},
+            config_desc = #{configDesc,jdbcType=VARCHAR},
+            config_type = #{configType,jdbcType=VARCHAR},
+            config_group = #{configGroup,jdbcType=VARCHAR},
+            sort_order = #{sortOrder,jdbcType=INTEGER},
+            status = #{status,jdbcType=TINYINT},
+            updated_by = #{updatedBy,jdbcType=BIGINT},
+            updated_at = NOW()
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!-- 根据配置键更新配置值 -->
+    <update id="updateValueByConfigKey">
+        UPDATE system_configs
+        SET config_value = #{configValue,jdbcType=VARCHAR},
+            updated_by = #{updatedBy,jdbcType=BIGINT},
+            updated_at = NOW()
+        WHERE config_key = #{configKey,jdbcType=VARCHAR}
+    </update>
+
+    <!-- 批量更新配置值 -->
+    <update id="updateBatchByConfigKey" parameterType="java.util.List">
+        <foreach collection="list" item="item" separator=";">
+            UPDATE system_configs
+            SET config_value = #{item.configValue,jdbcType=VARCHAR},
+                updated_by = #{item.updatedBy,jdbcType=BIGINT},
+                updated_at = NOW()
+            WHERE config_key = #{item.configKey,jdbcType=VARCHAR}
+        </foreach>
+    </update>
+
+    <!-- 删除系统配置 -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE FROM system_configs
+        WHERE id = #{id,jdbcType=BIGINT}
+        AND is_system = 0
+    </delete>
+
+    <!-- 根据配置键删除 -->
+    <delete id="deleteByConfigKey" parameterType="java.lang.String">
+        DELETE FROM system_configs
+        WHERE config_key = #{configKey,jdbcType=VARCHAR}
+        AND is_system = 0
+    </delete>
+
+</mapper>

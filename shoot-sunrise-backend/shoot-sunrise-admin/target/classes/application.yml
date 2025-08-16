@@ -1,0 +1,21 @@
+# 个人摄影师微信小程序 - 管理后台配置文件
+spring:
+  profiles:
+    active: dev
+
+# 服务器配置
+server:
+  port: 8082
+  servlet:
+    context-path: /admin-api
+
+# 应用信息
+info:
+  app:
+    name: 个人摄影师微信小程序-管理后台
+    version: 1.0.0
+    description: 个人摄影师微信小程序管理后台系统，提供用户管理、内容审核、数据统计等功能
+
+# 日志配置
+logging:
+  config: classpath:logback-admin.xml
